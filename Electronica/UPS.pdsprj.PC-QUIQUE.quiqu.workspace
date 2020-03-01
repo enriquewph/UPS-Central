@@ -6,9 +6,9 @@
   <WINDOW type="default" module="ISIS"/>
   <WINDOW type="VIEW3D" module="VIEW3D">
    <camera>
-    <position x="0" y="-6572360" z="6572360"/>
+    <position x="-260326" y="-3659971" z="10039432"/>
     <focus x="0" y="0" z="0"/>
-    <up x="0" y="707106" z="707106"/>
+    <up x="-7577" y="939552" z="342324"/>
    </camera>
   </WINDOW>
  </FRAME>

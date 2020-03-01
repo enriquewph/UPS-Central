@@ -1,6 +1,7 @@
 {
     "sketch": "main.ino",
     "board": "arduino:avr:uno",
-    "port": "COM2",
-    "programmer": "AVRISP mkII"
+    "port": "net:192.168.0.106:2323",
+    "programmer": "AVRISP mkII",
+    "output": "C:/ard_builds"
 }
