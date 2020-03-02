@@ -3,9 +3,11 @@
 /* TODO:
  * - Comandos ya sean UART o por I2C
  * - Determinar carga por Wh totales!
+ * - Integrar tiempo restante para carga y decarga.
  * - Integrar modo de bajo consumo!
  * - Integrar led flasheando cuando la bateria esta descargada.
  * - Integrar reinicio de carga por comando.
+ * - Proteccion por sobrecarga. (exceso de amperaje en la salida)
  */
 
 void setup()
