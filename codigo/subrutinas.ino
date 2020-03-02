@@ -76,7 +76,7 @@ void debugPrint()
     Serial.print(" | GOOD: ");
     Serial.println(GET_PSU_POWER_ON);
     Serial.print("Total: ");
-    Serial.print(GET_WATTHOURS);
+    Serial.print(GET_WATTS);
     Serial.println(" W/h");
     Serial.print("Carga: ");
     Serial.print(bateria.carga);

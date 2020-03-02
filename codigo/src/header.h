@@ -11,15 +11,24 @@ typedef struct bateria_s
 typedef struct ampHours_s
 {
     uint32_t ampHours;
-    uint32_t time;
+    uint32_t time; //MINUTOS
 } ampHours_t;
 
 typedef struct charge_discharge_s
 {
     ampHours_t lastFull;
-    ampHours_t last[10];
+    ampHours_t last[HISTORIAL_SIZE];
     ampHours_t current;
 } charge_discharge_t;
+
+void ciclarHistorial(ampHours_t* s)
+{
+    for (uint8_t i = 0; i < HISTORIAL_SIZE; i++)
+    {
+        if (i < HISTORIAL_SIZE - 1)
+            s[i + 1] = s[i];
+    }
+}
 
 typedef struct historial_s
 {

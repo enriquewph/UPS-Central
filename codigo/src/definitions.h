@@ -7,6 +7,10 @@
 #define POWER_GOOD_PIN 3
 #define POWER_ON_PIN 2
 #define RELAY_PIN 5
+//Estados para RELAY_PIN
+#define RELAY_AC_CONECTADO 1
+#define RELAY_BAT_CONECTADO 0
+
 #define FAN_ON_PIN 7
 #define PSU_ON_PIN 6
 #define LED_CARGANDO_PIN 11
@@ -31,11 +35,12 @@
 #define SENS_CORRIENTE_SENSIBILIDAD (double)0.06717094
 #define SENS_CORRIENTE_VOLTAGE_ZEROA (float)2.495
 #define SENS_CORRIENTE_CORRECCION (float)0.07432
+
 #define BAT_MAX_TEMP 50.0
 #define BAT_MIN_VOLT 11.1
 
-#define RELAY_AC_CONECTADO 1
-#define RELAY_BAT_CONECTADO 0
+
+#define HISTORIAL_SIZE 15
 
 
 
@@ -51,7 +56,7 @@
 #define GET_PSU_POWER_ON !digitalRead(POWER_ON_PIN)
 
 #define GET_BAT_ISCHARGING (GET_BAT_CURR > 0)
-#define GET_WATTHOURS ((double) (historial.totalWattHours / 100.0))
+#define GET_WATTS ((float) (historial.totalWattHours / 100.0)) //W a ala salida
 
 #define BAT_DESCARGADA (bateria.voltaje >= BAT_MIN_VOLT)
 #define GET_OVERHEATING (bateria.temperatura <= BAT_MAX_TEMP)
@@ -59,14 +64,25 @@
 #define BAT_HEALTHY (GET_OVERHEATING && BAT_DESCARGADA)
 
 
-
-
 //EEPROM
 
-//Tiempo estimado de vida util de la memoria: 57 a�os
+//Tiempo estimado de vida util de la memoria: 57 years
+#define EEPROM_UINT32_T_SIZE 4u
 
-#define EEPROM_ADDR_TOTALTIME 0x0
-#define EEPROM_ADDR_TOTALWATTHOURS 0x4
+#define EEPROM_ADDR_START 0u
 
+#define EEPROM_ADDR_totalTime EEPROM_ADDR_START
+#define EEPROM_ADDR_totalAmpHours (EEPROM_ADDR_totalTime + (1 * EEPROM_UINT32_T_SIZE))
+#define EEPROM_ADDR_totalWattHours (EEPROM_ADDR_totalAmpHours + (1 * EEPROM_UINT32_T_SIZE))
+
+#define EEPROM_ADDR_bat_charge_lastFull (EEPROM_ADDR_totalWattHours + (1 * EEPROM_UINT32_T_SIZE))
+#define EEPROM_ADDR_bat_charge_current ((EEPROM_ADDR_bat_charge_lastFull + (2 * (1 * EEPROM_UINT32_T_SIZE))))
+#define EEPROM_ADDR_bat_charge_last ((EEPROM_ADDR_bat_charge_current + (2 * (1 * EEPROM_UINT32_T_SIZE))))
+
+#define EEPROM_ADDR_bat_discharge_lastFull ((EEPROM_ADDR_bat_charge_last + (2 * (HISTORIAL_SIZE * EEPROM_UINT32_T_SIZE))))
+#define EEPROM_ADDR_bat_discharge_current ((EEPROM_ADDR_bat_discharge_lastFull + (2 * (1 * EEPROM_UINT32_T_SIZE))))
+#define EEPROM_ADDR_bat_discharge_last ((EEPROM_ADDR_bat_discharge_current + (2 * (1 * EEPROM_UINT32_T_SIZE))))
+
+#define EEPROM_ADDR_NEXTFREE ((EEPROM_ADDR_bat_discharge_last + (2 * (HISTORIAL_SIZE * EEPROM_UINT32_T_SIZE))))
 
 #endif
