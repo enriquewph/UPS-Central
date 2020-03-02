@@ -1,10 +1,10 @@
 #include "src/include.h"
 
-void setSystemState(uint8_t state)
+void setSystemState(estado_t estado)
 {
-    switch (state)
+    switch (estado)
     {
-    case ESTADO_STANDBY:
+    case estado_e::ESTADO_STANDBY:
         digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
         digitalWrite(FAN_ON_PIN, HIGH);
 
@@ -13,7 +13,7 @@ void setSystemState(uint8_t state)
         digitalWrite(LED_DESCARGANDO_PIN, LOW);
 
         break;
-    case ESTADO_CARGANDO:
+    case estado_e::ESTADO_CARGANDO:
         digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
         digitalWrite(FAN_ON_PIN, HIGH);
 
@@ -21,7 +21,7 @@ void setSystemState(uint8_t state)
         digitalWrite(LED_CARGANDO_PIN, HIGH);
         digitalWrite(LED_DESCARGANDO_PIN, LOW);
         break;
-    case ESTADO_DESCARGANDO:
+    case estado_e::ESTADO_DESCARGANDO:
         digitalWrite(RELAY_PIN, RELAY_BAT_CONECTADO);
         digitalWrite(FAN_ON_PIN, HIGH);
 
@@ -29,38 +29,66 @@ void setSystemState(uint8_t state)
         digitalWrite(LED_CARGANDO_PIN, LOW);
         digitalWrite(LED_DESCARGANDO_PIN, HIGH);
         break;
+    case estado_e::ESTADO_BATDESCARGADA: //Entrar en modo de bajo consumo. Bateria descargada.
+        digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
+        digitalWrite(FAN_ON_PIN, LOW);
+
+        digitalWrite(LED_CARGADO_PIN, LOW);
+        digitalWrite(LED_CARGANDO_PIN, LOW);
+        digitalWrite(LED_DESCARGANDO_PIN, LOW); //Hacer led intermitente?
+        break;
+    case estado_e::ESTADO_OVERHEATING: //Temperatura demasiada alta.
+        digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
+        digitalWrite(FAN_ON_PIN, LOW);
+
+        digitalWrite(LED_CARGADO_PIN, LOW);
+        digitalWrite(LED_CARGANDO_PIN, LOW);
+        digitalWrite(LED_DESCARGANDO_PIN, LOW); //Hacer led intermitente?
+        break;
     }
 }
 
-uint8_t _getSystemState(bool fast)
+estado_t _getSystemState()
 {
-    if (fast) //No va a revisar si la bateria se esta cargando o no.
-        if (GET_PSU_POWER_GOOD && GET_PSU_POWER_ON)
-            return ESTADO_STANDBY;
-        else
-            return ESTADO_DESCARGANDO;
+    if (GET_OVERHEATING)
+    {
+        return estado_e::ESTADO_OVERHEATING;
+    }
 
-    if (GET_PSU_POWER_GOOD && GET_PSU_POWER_ON)
+    if (GET_PSU_POWER_GOOD && GET_PSU_POWER_ON) //Si hay corriente electrica
+    {
         if (GET_BAT_ISCHARGING)
-            return ESTADO_CARGANDO;
+            return estado_e::ESTADO_CARGANDO;
         else
-            return ESTADO_STANDBY;
+            return estado_e::ESTADO_STANDBY;
+    }
     else
-        return ESTADO_DESCARGANDO;
+    {
+        if (BAT_DESCARGADA)
+            return estado_e::ESTADO_DESCARGANDO;
+        else
+            return estado_e::ESTADO_BATDESCARGADA;
+    }
 }
 
-char *getSystemState_c_str(uint8_t state)
+char *getSystemState_c_str(estado_t estado)
 {
-    switch (state)
+    switch (estado)
     {
-    case ESTADO_STANDBY:
+    case estado_e::ESTADO_STANDBY:
         return ("STANDBY");
         break;
-    case ESTADO_CARGANDO:
+    case estado_e::ESTADO_CARGANDO:
         return ("CARGANDO");
         break;
-    case ESTADO_DESCARGANDO:
+    case estado_e::ESTADO_DESCARGANDO:
         return ("DESCARGANDO");
+        break;
+    case estado_e::ESTADO_BATDESCARGADA:
+        return ("BATDESCARGADA");
+        break;
+    case estado_e::ESTADO_OVERHEATING:
+        return ("OVERHEATING");
         break;
     default:
         return ("???");

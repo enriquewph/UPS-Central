@@ -50,7 +50,12 @@ float getCorriente(uint8_t sensor)
     float adcVolts = get_ADC_voltage(sensor, 25);
     float corriente = ((adcVolts - SENS_CORRIENTE_VOLTAGE_ZEROA) / SENS_CORRIENTE_SENSIBILIDAD) + SENS_CORRIENTE_CORRECCION;
 
-    return (corriente);
+    return (-corriente);
+}
+
+float mapFloat(float x, float in_min, float in_max, float out_min, float out_max)
+{
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 
@@ -65,9 +70,15 @@ void debugPrint()
     Serial.print(" - I load:");
     Serial.println(GET_LOAD_CURR);
     Serial.print("ESTADO: ");
-    Serial.println(getSystemState_c_str(_getSystemState(false)));
+    Serial.println(getSystemState_c_str(_getSystemState()));
     Serial.print("POWER: ON: ");
     Serial.print(GET_PSU_POWER_ON);
     Serial.print(" | GOOD: ");
     Serial.println(GET_PSU_POWER_ON);
+    Serial.print("Total: ");
+    Serial.print(GET_WATTHOURS);
+    Serial.println(" W/h");
+    Serial.print("Carga: ");
+    Serial.print(bateria.carga);
+    Serial.println("%");
 }

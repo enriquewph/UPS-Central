@@ -1,5 +1,4 @@
 #include "src/include.h"
-#include <EEPROM.h>
 
 void EEPROMWritelong(int address, uint32_t value)
 {
@@ -32,7 +31,7 @@ uint32_t EEPROMReadlong(int address)
 
 void eeprom_readVars()
 {
-    historial.upTime = 0;
+    historial.currentTime = 0;
     historial.totalTime = EEPROMReadlong(EEPROM_ADDR_TOTALTIME);
     historial.totalWattHours = EEPROMReadlong(EEPROM_ADDR_TOTALWATTHOURS);
 }

@@ -26,7 +26,7 @@ void timerManagement_tick()
     }
 
     //Si se está desconectada la corriente, tratar de activar la fuente de 12v!
-    if ((uint32_t)(millis() - lastMillis.psu_on) > 4000U && _getSystemState(true) == ESTADO_DESCARGANDO)
+    if ((uint32_t)(millis() - lastMillis.psu_on) > 4000U && _getSystemState() == ESTADO_DESCARGANDO)
     {
         //Se togglea el pin de PSU_ON cada 4 segundos SI ES QUE LA FUENTE ESTA APAGADA!, cuando encienda este togleo se detiene.
         lastMillis.psu_on = millis();

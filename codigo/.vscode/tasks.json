@@ -6,7 +6,7 @@
         {
             "label": "upload",
             "type": "shell",
-            "command": "./.tools/avr-link flash --esp 192.168.0.106 --file C:/ard_builds/main.ino.hex",
+            "command": "./.tools/avr-link flash --esp 192.168.0.106 --file C:/ard_builds/eeprom.ino.hex",
             "group": {
                 "kind": "build",
                 "isDefault": true

@@ -2,6 +2,7 @@
 #define include_h
 
 #include <Arduino.h>
+#include <EEPROM.h>
 #include "definitions.h"
 #include "header.h"
 
