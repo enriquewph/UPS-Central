@@ -43,6 +43,15 @@ void loop()
     bateria.temperatura = get_temperatura_bateria();
     bateria.voltaje = get_voltageBateria();
     bateria.carga = determinarCarga();
+    switch (estadoActual)
+    {
+    case estado_e::ESTADO_CARGANDO: //Estado CARGANDO
+        bateria.remainingTime = (uint32_t)(historial.bat.charge.lastFull.time * (100.0 - (bateria.carga / 100.0)));
+        break;
+    case estado_e::ESTADO_DESCARGANDO: //Estado DESCARGANDO
+        bateria.remainingTime = (uint32_t)(historial.bat.discharge.lastFull.time * (bateria.carga / 100.0));
+        break;
+    }
     load_curr = getCorriente(LOAD_CURR_PIN);
     bat_curr = getCorriente(BAT_CURR_PIN);
 
