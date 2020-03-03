@@ -59,26 +59,18 @@ float mapFloat(float x, float in_min, float in_max, float out_min, float out_max
 }
 
 
-void debugPrint()
+void setLed(uint8_t led_pin, uint8_t mode)
 {
-    Serial.print("T bat:");
-    Serial.print(bateria.temperatura);
-    Serial.print(" - V bat:");
-    Serial.print(bateria.voltaje);
-    Serial.print(" - I bat:");
-    Serial.print(GET_BAT_CURR);
-    Serial.print(" - I load:");
-    Serial.println(GET_LOAD_CURR);
-    Serial.print("ESTADO: ");
-    Serial.println(getSystemState_c_str(_getSystemState()));
-    Serial.print("POWER: ON: ");
-    Serial.print(GET_PSU_POWER_ON);
-    Serial.print(" | GOOD: ");
-    Serial.println(GET_PSU_POWER_ON);
-    Serial.print("Total: ");
-    Serial.print(GET_WATTS);
-    Serial.println(" W/h");
-    Serial.print("Carga: ");
-    Serial.print(bateria.carga);
-    Serial.println("%");
+    switch (led_pin)
+    {
+    case LED_OFF:
+        digitalWrite(led_pin, 0);
+        break;
+    case LED_ON:
+        digitalWrite(led_pin, 1);
+        break;
+    case LED_FLASH:
+        digitalWrite(led_pin, flash_helper);
+        break;
+    }
 }

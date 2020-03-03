@@ -17,6 +17,8 @@
 #define LED_CARGADO_PIN 12
 #define LED_DESCARGANDO_PIN 13
 
+
+
 //Analog Inputs
 #define BAT_VOLT_PIN A0
 #define ISENS1_PIN A1 //Sensor de corriente en serie con la bateria  negativo significa descarga positivo significa carga
@@ -39,8 +41,13 @@
 #define BAT_MAX_TEMP 50.0
 #define BAT_MIN_VOLT 11.1
 
+#define HISTORIAL_SIZE 10
 
-#define HISTORIAL_SIZE 15
+#define LED_OFF 0
+#define LED_ON 1
+#define LED_FLASH 2
+
+#define FLASH_FREQ 1 //Hz
 
 
 
@@ -48,6 +55,8 @@
 
 #define BAT_CURR_PIN ISENS1_PIN
 #define LOAD_CURR_PIN ISENS2_PIN
+
+#define FLASH_PERIOD ((1 / FLASH_FREQ) * 1000) //mSec
 
 #define GET_BAT_CURR bat_curr //Negativo: bateria descargandose Positivo: bateria cargandose con el cargador
 #define GET_LOAD_CURR load_curr //Positivo: Carga consumiendo Negativo: ???
@@ -59,7 +68,7 @@
 #define GET_WATTS ((float) (historial.totalWattHours / 100.0)) //W a ala salida
 
 #define BAT_DESCARGADA (bateria.voltaje >= BAT_MIN_VOLT)
-#define GET_OVERHEATING (bateria.temperatura <= BAT_MAX_TEMP)
+#define GET_OVERHEATING ((BAT_MAX_TEMP - bateria.temperatura) < 0)
 
 #define BAT_HEALTHY (GET_OVERHEATING && BAT_DESCARGADA)
 

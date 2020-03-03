@@ -6,6 +6,7 @@ typedef struct bateria_s
     float temperatura;
     float voltaje;
     float carga; //Porcentaje de carga...
+    float remainingTime;
 } bateria_t;
 
 typedef struct ampHours_s
@@ -59,6 +60,8 @@ historial_t historial;
 bateria_t bateria;
 float load_curr;
 float bat_curr;
+
+bool flash_helper = false;
 
 estado_t estadoActual;
 estado_t estadoAnterior = ESTADO_reserved;

@@ -8,42 +8,42 @@ void setSystemState(estado_t estado)
         digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
         digitalWrite(FAN_ON_PIN, HIGH);
 
-        digitalWrite(LED_CARGADO_PIN, HIGH);
-        digitalWrite(LED_CARGANDO_PIN, LOW);
-        digitalWrite(LED_DESCARGANDO_PIN, LOW);
+        setLed(LED_CARGADO_PIN, LED_ON);
+        setLed(LED_CARGANDO_PIN, LED_OFF);
+        setLed(LED_DESCARGANDO_PIN, LED_OFF);
 
         break;
     case estado_e::ESTADO_CARGANDO:
         digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
         digitalWrite(FAN_ON_PIN, HIGH);
 
-        digitalWrite(LED_CARGADO_PIN, LOW);
-        digitalWrite(LED_CARGANDO_PIN, HIGH);
-        digitalWrite(LED_DESCARGANDO_PIN, LOW);
+        setLed(LED_CARGADO_PIN, LED_OFF);
+        setLed(LED_CARGANDO_PIN, LED_ON);
+        setLed(LED_DESCARGANDO_PIN, LED_OFF);
         break;
     case estado_e::ESTADO_DESCARGANDO:
         digitalWrite(RELAY_PIN, RELAY_BAT_CONECTADO);
         digitalWrite(FAN_ON_PIN, HIGH);
 
-        digitalWrite(LED_CARGADO_PIN, LOW);
-        digitalWrite(LED_CARGANDO_PIN, LOW);
-        digitalWrite(LED_DESCARGANDO_PIN, HIGH);
+        setLed(LED_CARGADO_PIN, LED_OFF);
+        setLed(LED_CARGANDO_PIN, LED_OFF);
+        setLed(LED_DESCARGANDO_PIN, LED_ON);
         break;
     case estado_e::ESTADO_BATDESCARGADA: //Entrar en modo de bajo consumo. Bateria descargada.
         digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
         digitalWrite(FAN_ON_PIN, LOW);
 
-        digitalWrite(LED_CARGADO_PIN, LOW);
-        digitalWrite(LED_CARGANDO_PIN, LOW);
-        digitalWrite(LED_DESCARGANDO_PIN, LOW); //Hacer led intermitente?
+        setLed(LED_CARGADO_PIN, LED_OFF);
+        setLed(LED_CARGANDO_PIN, LED_OFF);
+        setLed(LED_DESCARGANDO_PIN, LED_FLASH); //Hacer led intermitente?
         break;
     case estado_e::ESTADO_OVERHEATING: //Temperatura demasiada alta.
         digitalWrite(RELAY_PIN, RELAY_AC_CONECTADO);
         digitalWrite(FAN_ON_PIN, LOW);
 
-        digitalWrite(LED_CARGADO_PIN, LOW);
-        digitalWrite(LED_CARGANDO_PIN, LOW);
-        digitalWrite(LED_DESCARGANDO_PIN, LOW); //Hacer led intermitente?
+        setLed(LED_CARGADO_PIN, LED_OFF);
+        setLed(LED_CARGANDO_PIN, LED_FLASH);
+        setLed(LED_DESCARGANDO_PIN, LED_OFF); //Hacer led intermitente?
         break;
     }
 }

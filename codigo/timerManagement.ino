@@ -3,26 +3,34 @@
 struct
 {
     uint32_t psu_on;
-    uint32_t debug;
+    //uint32_t debug;
     uint32_t timer5min;
     uint32_t timer1min;
+    uint32_t flashTimer;
 } lastMillis;
 
 void timerManagement_init()
 {
     lastMillis.psu_on = millis();
-    lastMillis.debug = millis();
+    //lastMillis.debug = millis();
     lastMillis.timer1min = millis();
     lastMillis.timer5min = millis();
+    lastMillis.flashTimer = millis();
 }
 
 void timerManagement_tick()
 {
     //Debug print
-    if ((uint32_t)(millis() - lastMillis.debug) > 2000U)
+    /*if ((uint32_t)(millis() - lastMillis.debug) > 2000U)
     {
         lastMillis.debug = millis();
         debugPrint();
+    }*/
+
+    if ((uint32_t)(millis() - lastMillis.flashTimer) > FLASH_PERIOD)
+    {
+        lastMillis.flashTimer = millis();
+        flash_helper = !flash_helper;
     }
 
     //Si se está desconectada la corriente, tratar de activar la fuente de 12v!

@@ -3,6 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
+                "E:\\Dropbox\\Datos de Programas\\Arduino\\libraries\\arduino_562353\\src",
                 "${workspaceFolder}",
                 "${workspaceFolder}/*",
                 "${workspaceFolder}/**",
@@ -17,8 +18,8 @@
                 "E:\\Dropbox\\Datos de Programas\\Arduino\\libraries\\**"
             ],
             "forcedInclude": [
-                "${workspaceFolder}",
-                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h",
+                "${workspaceFolder}"
             ],
             "intelliSenseMode": "msvc-x64",
             "cStandard": "c11",

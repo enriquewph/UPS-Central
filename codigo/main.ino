@@ -1,13 +1,21 @@
 #include "src/include.h"
 
-/* TODO:
+/* LISTO:
+ * - Salida de datos por JSON.
+ * - funciones de setLed(estado) para titilar, apagado, encendido
+ * - funciones de setLed(estado) para titilar, apagado, encendido
+ * 
+ * 
+ * TODO:
  * - Comandos ya sean UART o por I2C
- * - Determinar carga por Wh totales!
+ * - Determinar carga por Wh totales! - probar...
  * - Integrar tiempo restante para carga y decarga.
  * - Integrar modo de bajo consumo!
- * - Integrar led flasheando cuando la bateria esta descargada.
  * - Integrar reinicio de carga por comando.
  * - Proteccion por sobrecarga. (exceso de amperaje en la salida)
+ * - Implementar LOG
+ * - Wh actuales en json o cmd.
+ * - comando de borrar toda la eeprom.
  */
 
 void setup()
@@ -79,9 +87,28 @@ void timer1minTick()
 
 float determinarCarga()
 {
-    float carga = mapFloat(bateria.voltaje, BAT_MIN_VOLT, 12.65, 0, 100);
+    float carga;
+    float carga_v = mapFloat(bateria.voltaje, BAT_MIN_VOLT, 12.65, 0, 100);
+
+    switch (estadoActual)
+    {
+    case estado_e::ESTADO_CARGANDO: //Estado CARGANDO
+        if (historial.bat.charge.lastFull.ampHours != 0)
+            carga = (historial.bat.charge.current.ampHours / historial.bat.charge.lastFull.ampHours) * 100;
+        else
+            carga = carga_v;
+        break;
+    case estado_e::ESTADO_DESCARGANDO: //Estado DESCARGANDO
+        if (historial.bat.discharge.lastFull.ampHours != 0)
+            carga = 100.0 - (historial.bat.discharge.current.ampHours / historial.bat.discharge.lastFull.ampHours) * 100;
+        else
+            carga = carga_v;
+        break;
+    }
+
     if (carga >= 100.0)
         carga = 100.0;
+
     return carga;
 }
 
